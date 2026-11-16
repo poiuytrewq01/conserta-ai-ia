@@ -4,13 +4,12 @@ Entrega de **Disruptive Architectures: IoT, IoB & Generative AI** · Global Solu
 
 ## Integrantes
 
-| Nome completo | RM | Turma |
-|---|---|---|
-| Artur Pioli Silva | RM_____ | _____ |
-| Kevin Martins Campos | RM563454 | _____ |
-| Matheus Arazin de Oliveira | RM556649 | _____ |
-| Pedro Gabriel Claes | RM566058 | _____ |
-| _____ | RM_____ | _____ |
+| Nome completo | RM |
+|---|---|
+| Artur Pioli Silva | RM565597 |
+| Kevin Martins Campos | RM563454 |
+| Matheus Arazin de Oliveira | RM556649 |
+| Pedro Gabriel Claes | RM566058 |
 
 ---
 
