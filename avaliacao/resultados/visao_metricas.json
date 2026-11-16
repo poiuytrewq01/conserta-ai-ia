@@ -1,0 +1,119 @@
+{
+  "modelo": "openai/clip-vit-base-patch32",
+  "limiar": 0.5,
+  "zero_shot": {
+    "n_imagens": 120,
+    "por_categoria": {
+      "Buraco": 20,
+      "Iluminação": 20,
+      "Lixo": 20,
+      "Calçada": 20,
+      "Sinalização": 20,
+      "Outros": 20
+    },
+    "acuracia": 0.725,
+    "f1_macro": 0.7212,
+    "cobertura_limiar": 0.85,
+    "acuracia_acima_limiar": 0.7647,
+    "relatorio": {
+      "Buraco": {
+        "precision": 0.7058823529411765,
+        "recall": 0.6,
+        "f1-score": 0.6486486486486487,
+        "support": 20.0
+      },
+      "Iluminação": {
+        "precision": 0.7727272727272727,
+        "recall": 0.85,
+        "f1-score": 0.8095238095238095,
+        "support": 20.0
+      },
+      "Lixo": {
+        "precision": 0.7727272727272727,
+        "recall": 0.85,
+        "f1-score": 0.8095238095238095,
+        "support": 20.0
+      },
+      "Calçada": {
+        "precision": 0.6111111111111112,
+        "recall": 0.55,
+        "f1-score": 0.5789473684210527,
+        "support": 20.0
+      },
+      "Sinalização": {
+        "precision": 0.7619047619047619,
+        "recall": 0.8,
+        "f1-score": 0.7804878048780488,
+        "support": 20.0
+      },
+      "Outros": {
+        "precision": 0.7,
+        "recall": 0.7,
+        "f1-score": 0.7,
+        "support": 20.0
+      },
+      "accuracy": 0.725,
+      "macro avg": {
+        "precision": 0.7207254619019324,
+        "recall": 0.725,
+        "f1-score": 0.7211885734992283,
+        "support": 120.0
+      },
+      "weighted avg": {
+        "precision": 0.7207254619019324,
+        "recall": 0.725,
+        "f1-score": 0.7211885734992282,
+        "support": 120.0
+      }
+    }
+  },
+  "linear_probe": {
+    "dobras": 5,
+    "acuracia": 0.8333,
+    "f1_macro": 0.8314
+  },
+  "casos_falha": [
+    {
+      "arquivo": "fotos/falha_noturna/I-205_temporary_pothole_repair.jpg",
+      "esperado": "Buraco",
+      "previsto": "Buraco",
+      "confianca": 0.9989,
+      "confiavel": true
+    },
+    {
+      "arquivo": "fotos/falha_noturna/Preparing_to_repair_a_pothole_on_I-205.jpg",
+      "esperado": "Buraco",
+      "previsto": "Buraco",
+      "confianca": 0.9857,
+      "confiavel": true
+    },
+    {
+      "arquivo": "fotos/falha_noturna/Night_work__30277711982_.jpg",
+      "esperado": "Buraco",
+      "previsto": "Buraco",
+      "confianca": 0.8269,
+      "confiavel": true
+    },
+    {
+      "arquivo": "fotos/falha_noturna/Night_paving__30358099986_.jpg",
+      "esperado": "Buraco",
+      "previsto": "Buraco",
+      "confianca": 0.8962,
+      "confiavel": true
+    },
+    {
+      "arquivo": "fotos/falha_noturna/Black-crowned_Night_Heron_Huron_Wetland_Management_District_South_Dakota__524867.jpg",
+      "esperado": "Buraco",
+      "previsto": "Outros",
+      "confianca": 0.5946,
+      "confiavel": true
+    },
+    {
+      "arquivo": "fotos/falha_noturna/Black-crowned_Night_Heron_Huron_Wetland_Management_District_South_Dakota__524867.jpg",
+      "esperado": "Buraco",
+      "previsto": "Outros",
+      "confianca": 0.5946,
+      "confiavel": true
+    }
+  ]
+}
