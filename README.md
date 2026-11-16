@@ -89,7 +89,7 @@ As imagens em si não são versionadas (respeito às licenças e tamanho do repo
 Pré-requisitos: Python 3.10+ e uma chave gratuita do Gemini (https://aistudio.google.com/apikey).
 
 ```bash
-git clone https://github.com/arturpioli/conserta-ai-ia.git
+git clone https://github.com/poiuytrewq01/conserta-ai-ia.git
 cd conserta-ai-ia
 cp .env.example .env          # coloque sua chave em LLM_API_KEY
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
