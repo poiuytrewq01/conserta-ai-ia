@@ -1,0 +1,11 @@
+Conserta Aí - Global Solution 2026/2
+Disciplina: Disruptive Architectures: IoT, IoB & Generative AI
+
+Integrantes:
+Artur Pioli Silva - RM_____ - Turma _____
+Kevin Martins Campos - RM563454 - Turma _____
+Matheus Arazin de Oliveira - RM556649 - Turma _____
+Pedro Gabriel Claes - RM566058 - Turma _____
+_____ - RM_____ - Turma _____
+
+Repositório: https://github.com/arturpioli/conserta-ai-ia
