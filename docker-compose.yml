@@ -1,0 +1,8 @@
+services:
+  ia-visao:
+    build:
+      context: .
+      dockerfile: ia-visao/Dockerfile
+    env_file: .env
+    ports:
+      - "8000:8000"
