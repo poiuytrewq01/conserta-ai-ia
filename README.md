@@ -227,4 +227,13 @@ docs/                diagrama de arquitetura
 
 ## 10. Declaração de uso de IA
 
-Ferramentas de IA generativa foram usadas como apoio na escrita de código e documentação. Todo o conteúdo foi revisado e testado pela equipe.
+Seguindo as regras da disciplina, declaramos as ferramentas de IA generativa usadas **no desenvolvimento** (o Gemini e o CLIP fazem parte da solução e estão descritos na seção 3):
+
+| Ferramenta | Para que foi usada |
+|---|---|
+| Claude (Anthropic) | Apoio na escrita do código do serviço `ia-visao`, dos scripts de avaliação e dos testes; revisão de texto do README; explicação de erros durante a execução no Colab e no Git |
+| Google Colab | Ambiente para rodar o notebook de avaliação (não é IA generativa, citado para reprodutibilidade) |
+
+**Como usamos:** a equipe definiu o problema, a arquitetura e as regras de negócio (plano do projeto). A IA foi usada como apoio para implementar e documentar essas decisões. Todo o código foi executado, testado (20 testes automatizados + avaliação no Colab) e revisado pela equipe. Também revisamos os resultados: identificamos e corrigimos o modelo que estourava a cota e removemos fotos irrelevantes do conjunto de teste.
+
+**O que não fizemos:** não entregamos código ou texto sem entender. As decisões técnicas e seus porquês estão justificados nas seções 3, 6 e 7.
