@@ -1,14 +1,14 @@
 {
-  "modelo": "gemini-flash-latest",
+  "modelo": "gemini-flash-lite-latest",
   "n_normais": 30,
-  "acerto_categoria": 0.8,
-  "prioridade_exata": 0.1,
-  "prioridade_ate_1": 0.7667,
-  "json_valido": 0.0,
-  "taxa_fallback": 1.0,
-  "latencia_media_ms": 0,
-  "latencia_p95_ms": 0,
+  "acerto_categoria": 1.0,
+  "prioridade_exata": 0.8667,
+  "prioridade_ate_1": 1.0,
+  "json_valido": 1.0,
+  "taxa_fallback": 0.0,
+  "latencia_media_ms": 1942,
+  "latencia_p95_ms": 4652,
   "baseline_acerto_categoria": 0.8,
   "baseline_prioridade_ate_1": 0.7667,
-  "casos_falha_aprovados": "5/7"
+  "casos_falha_aprovados": "7/7"
 }
