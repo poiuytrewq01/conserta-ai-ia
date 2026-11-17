@@ -60,7 +60,7 @@ def checar_falha(caso: dict, r: dict) -> tuple[bool, str]:
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--pausa", type=float, default=4.0, help="segundos entre chamadas (limite da camada grátis)")
+    ap.add_argument("--pausa", type=float, default=6.0, help="segundos entre chamadas (limite da camada grátis)")
     args = ap.parse_args()
     RES.mkdir(exist_ok=True)
 
@@ -70,7 +70,7 @@ def main():
     triador = Triador()
     if triador.cliente is None:
         print("ATENÇÃO: LLM_API_KEY não configurada - tudo vai cair no fallback.")
-    linhas = []
+    linhas, falhas_seguidas = [], 0
     for c in casos:
         conf = float(c["confianca_foto"]) if c["confianca_foto"] else None
         # mesma regra da rota /analisar: foto abaixo do limiar não vai para o LLM
@@ -92,6 +92,10 @@ def main():
         if c["tipo"] != "normal":
             linha["passou_caso_falha"], linha["criterio"] = checar_falha(c, r)
         linhas.append(linha)
+        falhas_seguidas = falhas_seguidas + 1 if (r.get("erro") or "").startswith("falha no provedor") else 0
+        if falhas_seguidas >= 3:
+            raise SystemExit(f"\nO provedor do LLM falhou 3 vezes seguidas. Erro: {r['erro']}\n"
+                             "Confira a chave, a cota (https://aistudio.google.com/usage) ou troque LLM_MODELO e rode de novo.")
         print(f"{c['id']}: {r['origem']:8s} {r['categoria_final']:12s} P{r['prioridade']}  (esperado {c['categoria_esperada']} P{c['prioridade_esperada']})")
         time.sleep(args.pausa)
 

@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import csv
 import json
+import shutil
 import sys
 from collections import Counter
 from pathlib import Path
@@ -52,6 +53,8 @@ def salvar_matriz(y_true, y_pred, rotulos, titulo, arquivo):
 
 def main():
     RES.mkdir(exist_ok=True)
+    # cópia do manifesto (fonte e licença de cada foto) junto com os resultados versionados
+    shutil.copy(DADOS / "manifest_fotos.csv", RES / "manifest_fotos.csv")
     excluidas = set(EXCLUIDAS.read_text(encoding="utf-8").split()) if EXCLUIDAS.exists() else set()
     with (DADOS / "manifest_fotos.csv").open(encoding="utf-8") as fh:
         itens = [l for l in csv.DictReader(fh) if l["arquivo"] not in excluidas and (DADOS / l["arquivo"]).exists()]

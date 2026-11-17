@@ -78,7 +78,7 @@ O serviço Python também expõe a triagem (`POST /triagem`) e o fluxo completo 
 
 | Conjunto | Fonte | Preparação |
 |---|---|---|
-| Fotos de teste (~20 por categoria + 6 noturnas) | **Wikimedia Commons** (licenças livres CC/domínio público), baixadas por `avaliacao/baixar_fotos.py`; fotos do grupo em `avaliacao/dados/fotos_grupo/` | Só entram arquivos com licença declarada; redimensionadas para 512 px; autor, licença e link de cada uma ficam em [`avaliacao/dados/manifest_fotos.csv`](avaliacao/dados/manifest_fotos.csv). Fotos erradas podem ser removidas em `fotos_excluidas.txt` |
+| Fotos de teste (~20 por categoria + 6 noturnas) | **Wikimedia Commons** (licenças livres CC/domínio público), baixadas por `avaliacao/baixar_fotos.py`; fotos do grupo em `avaliacao/dados/fotos_grupo/` | Só entram arquivos com licença declarada; redimensionadas para 512 px; autor, licença e link de cada uma ficam em [`avaliacao/resultados/manifest_fotos.csv`](avaliacao/resultados/manifest_fotos.csv). Fotos erradas podem ser removidas em `fotos_excluidas.txt` |
 | Descrições de teste | 30 relatos escritos pelo grupo + 7 casos de falha: [`avaliacao/dados/descricoes_teste.csv`](avaliacao/dados/descricoes_teste.csv) | Cada linha tem categoria e prioridade esperadas. Em 6 casos o cidadão escolheu a categoria errada (ex.: semáforo como "Iluminação"), como acontece na vida real |
 | Prompt | [`prompts/triagem_sistema.txt`](prompts/triagem_sistema.txt) | Escala de prioridade com exemplos, regras contra prompt injection e ofensas, formato JSON obrigatório |
 
@@ -151,6 +151,21 @@ Resposta (exemplo ilustrativo):
 - [`visao.md`](avaliacao/resultados/visao.md) — tabela de métricas e matrizes de confusão (zero-shot x linear probe)
 - [`llm.md`](avaliacao/resultados/llm.md) — métricas da triagem, comparação com o baseline e cada caso de falha
 - `visao_predicoes.csv`, `llm_resultados.csv` — previsão de cada item, para auditoria
+
+### Interpretação — visão computacional
+
+Medido em 120 fotos (20 por categoria); acertar no chute daria 16,7%.
+
+| Abordagem | Acurácia | F1 macro |
+|---|---|---|
+| CLIP zero-shot (o que roda no serviço) | **72,5%** | **0,721** |
+| Linear probe (regressão logística sobre os embeddings, 5-fold) | **83,3%** | **0,831** |
+
+- **Sem treino nenhum, o CLIP acerta 3 de cada 4 fotos.** Iluminação e Lixo foram as melhores (F1 0,81), e Sinalização veio logo atrás (0,78).
+- **O ponto fraco é Calçada x Buraco** (F1 0,58 e 0,65). O erro mais comum foi buraco classificado como calçada (6 casos): as duas fotos mostram chão danificado, e o CLIP não separa bem asfalto de calçamento. É a limitação que o plano já previa.
+- **O limiar de 0,5 se justifica:** 85% das fotos ficam acima dele, com 76,5% de acerto. Nas 18 fotos abaixo, o acerto cai para 50%, ou seja, é praticamente um chute entre duas categorias. Por isso essas fotos são ignoradas e vale a descrição.
+- **O linear probe ganhou 10,8 pontos** treinando só uma camada com poucas fotos. Isso mostra o próximo passo: usar as fotos reais que chegarem pelo app (com a categoria confirmada pelo gestor) para treinar essa camada.
+- **Fotos noturnas:** as 4 fotos noturnas válidas, de obras com iluminação artificial, foram classificadas certo com alta confiança. Não testamos foto escura de celular, que é o caso mais difícil. Uma imagem que não tinha relação com o tema veio na busca e foi excluída em `fotos_excluidas.txt`.
 
 **Testes automatizados** (`tests/`, 20 testes): máscara de dados pessoais, JSON quebrado, categoria inventada pelo LLM, prioridade fora da escala, provedor fora do ar, upload que não é imagem, bloqueio de URL interna (SSRF) e regra do limiar de confiança.
 

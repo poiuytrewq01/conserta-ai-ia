@@ -16,8 +16,10 @@ VISAO_TAMANHO_MAX_MB = float(os.getenv("VISAO_TAMANHO_MAX_MB", "10"))
 # IA generativa (qualquer provedor compatível com a API da OpenAI; padrão: Gemini)
 LLM_BASE_URL = os.getenv("LLM_BASE_URL", "https://generativelanguage.googleapis.com/v1beta/openai/")
 LLM_API_KEY = os.getenv("LLM_API_KEY", "")
-LLM_MODELO = os.getenv("LLM_MODELO", "gemini-flash-latest")
-LLM_TIMEOUT_S = float(os.getenv("LLM_TIMEOUT_S", "20"))
+LLM_MODELO = os.getenv("LLM_MODELO", "gemini-flash-lite-latest")
+LLM_TIMEOUT_S = float(os.getenv("LLM_TIMEOUT_S", "60"))
+# tentativas automáticas em erro 429 (cota) e 5xx, com espera crescente entre elas
+LLM_MAX_RETRIES = int(os.getenv("LLM_MAX_RETRIES", "4"))
 
 # Regra de negócio do fallback (definida no plano do projeto)
 PRIORIDADE_PADRAO = 3

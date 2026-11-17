@@ -41,7 +41,7 @@ BUSCAS = {
     "sinalizacao": ("Sinalização", ["incategory:Road_signs_in_Brazil", "damaged road sign", "traffic sign street"]),
     "outros": ("Outros", ["empty residential street", "clean street daytime"]),
     # casos de falha (não entram nas métricas principais)
-    "falha_noturna": ("Buraco", ["pothole at night", "road at night street"]),
+    "falha_noturna": ("Buraco", ["pothole at night", "night road repair pothole", "damaged road at night"]),
 }
 PASTAS_FALHA = {"falha_noturna"}
 
@@ -96,6 +96,8 @@ def main():
                 nome = re.sub(r"[^\w.-]", "_", p["title"].removeprefix("File:"))[:80]
                 if not nome.lower().endswith((".jpg", ".jpeg", ".png")):
                     nome += ".jpg"
+                if (destino / nome).exists() and f"fotos/{pasta}/{nome}" in {l["arquivo"] for l in linhas}:
+                    continue  # nome repetido depois de encurtar: evita contar a mesma foto 2x
                 try:
                     img = requests.get(url, headers=HEADERS, timeout=30)
                     img.raise_for_status()

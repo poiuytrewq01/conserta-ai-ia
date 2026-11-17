@@ -57,7 +57,7 @@ def _criar_cliente():
 
     if not config.LLM_API_KEY:
         return None
-    return OpenAI(api_key=config.LLM_API_KEY, base_url=config.LLM_BASE_URL, timeout=config.LLM_TIMEOUT_S, max_retries=1)
+    return OpenAI(api_key=config.LLM_API_KEY, base_url=config.LLM_BASE_URL, timeout=config.LLM_TIMEOUT_S, max_retries=config.LLM_MAX_RETRIES)
 
 
 class Triador:
@@ -112,7 +112,7 @@ class Triador:
                 except (ValueError, ValidationError, json.JSONDecodeError) as e:
                     erro = f"saída inválida: {e}"
                 except Exception as e:  # rede, cota, timeout... o fluxo nunca trava por causa da IA
-                    erro = f"falha no provedor: {type(e).__name__}"
+                    erro = f"falha no provedor: {type(e).__name__}: {str(e)[:200]}"
                     break
         return self._fallback(categoria_cidadao, erro, json_valido, inicio)
 
