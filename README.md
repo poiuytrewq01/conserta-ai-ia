@@ -167,6 +167,27 @@ Medido em 120 fotos (20 por categoria); acertar no chute daria 16,7%.
 - **O linear probe ganhou 10,8 pontos** treinando só uma camada com poucas fotos. Isso mostra o próximo passo: usar as fotos reais que chegarem pelo app (com a categoria confirmada pelo gestor) para treinar essa camada.
 - **Fotos noturnas:** as 4 fotos noturnas válidas, de obras com iluminação artificial, foram classificadas certo com alta confiança. Não testamos foto escura de celular, que é o caso mais difícil. Uma imagem que não tinha relação com o tema veio na busca e foi excluída em `fotos_excluidas.txt`.
 
+### Interpretação — IA generativa (triagem com `gemini-flash-lite-latest`)
+
+| Métrica | Com IA | Sem IA (categoria do cidadão + prioridade 3) |
+|---|---|---|
+| Acerto de categoria | **100%** | 80% |
+| Prioridade exata | **86,7%** | - |
+| Prioridade a até 1 ponto | **100%** | 76,7% |
+| JSON válido | **100%** | - |
+| Caiu no fallback | 0% | - |
+| Latência média / p95 | 1,9 s / 4,7 s | - |
+| Casos de falha aprovados | **7/7** | - |
+
+- **A IA corrigiu os 6 relatos em que o cidadão escolheu a categoria errada** (ex.: semáforo marcado como Iluminação virou Sinalização; fio solto marcado como Outros virou Iluminação). Sem IA, esses 6 ficariam errados.
+- **A prioridade deixou de ser "3 para tudo":** a IA separou risco imediato (moto caindo, PARE caído, fio solto = 5) de incômodo (lâmpada piscando, placa torta = 2). Errou a nota exata em 4 de 30, sempre por só 1 ponto e sempre para menos (ex.: poste apagado com relato de assalto ficou 3 em vez de 4). Ou seja, a IA tende a ser conservadora, e o gestor pode subir a prioridade.
+- **JSON 100% válido** e nenhuma queda no fallback: a integração com a Java pode confiar no formato.
+- **Casos de falha:** ignorou a ofensa e não a repetiu no resumo (F01), não obedeceu ao *prompt injection* e deu prioridade 1 ao papel no chão (F02), seguiu a descrição quando a foto contradizia (F03), deu Outros com prioridade 1 para relato vago e fora do escopo (F04, F06) e não deixou telefone e email chegarem ao modelo (F05).
+- **Latência:** 1,9 s em média e 4,7 s no pior caso comum. Como a triagem roda fora da requisição (RabbitMQ), o cidadão não espera por isso.
+- **Cuidado com o resultado perfeito:** as 30 descrições foram escritas pelo mesmo grupo que escreveu o prompt e são relatos claros. Com textos reais (gírias, erros de digitação, relatos longos) o acerto tende a ser menor. O próximo passo é avaliar com relatos reais do app.
+
+> As métricas de visão são da primeira execução do notebook (120 fotos, 20 por categoria). As da triagem são da segunda execução, depois da troca para o modelo Flash-Lite: a primeira esgotou a cota do modelo Flash na camada gratuita e caiu 100% no fallback, o que também comprovou que o fluxo não trava quando o LLM falha. Na segunda execução, a busca do Commons devolveu só 7 fotos de "Outros"; por isso mantivemos o conjunto balanceado da primeira.
+
 **Testes automatizados** (`tests/`, 20 testes): máscara de dados pessoais, JSON quebrado, categoria inventada pelo LLM, prioridade fora da escala, provedor fora do ar, upload que não é imagem, bloqueio de URL interna (SSRF) e regra do limiar de confiança.
 
 ## 7. Limitações

@@ -39,7 +39,7 @@ BUSCAS = {
     "lixo": ("Lixo", ["incategory:Litter", "illegal dumping street", "garbage bags sidewalk"]),
     "calcada": ("Calçada", ["broken sidewalk", "damaged sidewalk", "cracked sidewalk"]),
     "sinalizacao": ("Sinalização", ["incategory:Road_signs_in_Brazil", "damaged road sign", "traffic sign street"]),
-    "outros": ("Outros", ["empty residential street", "clean street daytime"]),
+    "outros": ("Outros", ["empty residential street", "clean street daytime", "suburban street", "city street sidewalk"]),
     # casos de falha (não entram nas métricas principais)
     "falha_noturna": ("Buraco", ["pothole at night", "night road repair pothole", "damaged road at night"]),
 }
